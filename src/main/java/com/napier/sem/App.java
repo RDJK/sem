@@ -1,43 +1,55 @@
 package com.napier.sem;
 
 import java.sql.*;
-import com.mysql.jdbc.Driver;
 
 public class App {
 
     public static void main(String[] args)
     {
+        // Create a new App
+        App a = new App();
 
+        // Connect to the database
+        a.connect();
+
+        // Disconnect from the database
+        a.disconnect();
+
+        System.out.println("Boo yah! & also disconnected");
+    }
+
+    /**
+     * Connection to MySQL database.
+     */
+    private Connection con = null;
+
+    /**
+     * Connect to the MySQL database.
+     */
+    private void connect()
+    {
         try
         {
+            // Load Database driver
             Class.forName("com.mysql.jdbc.Driver");
-            Driver d;
         }
-        catch (ClassNotFoundException e) {
-            System.out.println("Could not load SQL driver.");
+        catch (ClassNotFoundException e)
+        {
+            System.out.println("Could not load SQL driver");
             System.exit(-1);
         }
 
-        //Connection to the database
-        Connection con = null;
-        int retries = 100;
-
-        for(int i = 0; i < retries; ++i)
+        int retries = 10;
+        for (int i = 0; i < retries; ++i)
         {
-            System.out.println("Connecting to Database...");
+            System.out.println("Connecting to database...");
             try
             {
-                //Wait a bit for db to start
+                // Wait a bit for db to start
                 Thread.sleep(30000);
-
-                //Connect to database
+                // Connect to database
                 con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
                 System.out.println("Successfully connected");
-
-                //Wait a bit
-                Thread.sleep(10000);
-
-                //Exit loop
                 break;
             }
             catch (SQLException sqle)
@@ -47,15 +59,21 @@ public class App {
             }
             catch (InterruptedException ie)
             {
-                System.out.println("Thread Interrupted? Should not happen...");
+                System.out.println("Thread interrupted? Should not happen.");
             }
         }
+    }
 
+    /**
+     * Disconnect from the MySQL database.
+     */
+    private void disconnect()
+    {
         if (con != null)
         {
             try
             {
-                //close the connection
+                // Close connection
                 con.close();
             }
             catch (Exception e)
@@ -63,8 +81,6 @@ public class App {
                 System.out.println("Error closing connection to database");
             }
         }
-
-        System.out.println("Boo yah!");
     }
 
 }
