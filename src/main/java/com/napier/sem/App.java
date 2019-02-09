@@ -12,6 +12,10 @@ public class App {
         // Connect to the database
         a.connect();
 
+
+        Employee employee = a.getEmployee(255530);
+        employee.DisplayEmployee();
+
         // Disconnect from the database
         a.disconnect();
 
