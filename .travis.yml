@@ -28,7 +28,7 @@ jobs:
     - stage: deploy
       install: skip
       jdk: oraclejdk11
-      script: docker-compose
+      script: docker-compose up
     - stage: GitHub Release
       # We don't want to install
       install: skip
