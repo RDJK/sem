@@ -28,7 +28,7 @@ jobs:
     - stage: deploy
       install: skip
       jdk: oraclejdk11
-      script: echo "Deploy"
+      script: docker compose
 
 stages:
   - unit tests
